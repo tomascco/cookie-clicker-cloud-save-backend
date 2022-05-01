@@ -25,7 +25,11 @@ jobs:
           role-session-name: DeploySession
 
       - name: Pack function
-        run: zip function.zip save_handler.rb
+        run: |
+          zip save_handler.zip save_handler.rb
+          zip save_fetcher.zip save_fetcher.rb
 
       - name: Send to AWS
-        run: aws lambda update-function-code --function-name ${{ secrets.LAMBDA_NAME }} --zip-file fileb://function.zip
+        run: |
+          aws lambda update-function-code --function-name ${{ secrets.LAMBDA_STORE_SAVE }} --zip-file fileb://save_handler.zip
+          aws lambda update-function-code --function-name ${{ secrets.LAMBDA_RETRIEVE_SAVE }} --zip-file fileb://save_fetcher.zip
