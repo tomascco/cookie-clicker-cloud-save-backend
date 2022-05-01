@@ -24,8 +24,8 @@ jobs:
           role-to-assume: ${{ secrets.IAM_ROLE }}
           role-session-name: DeploySession
 
-      - name: Zip function
-        run: zip function.zip main.rb
+      - name: Pack function
+        run: zip function.zip save_handler.rb
 
       - name: Send to AWS
         run: aws lambda update-function-code --function-name ${{ secrets.LAMBDA_NAME }} --zip-file fileb://function.zip
